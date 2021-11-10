@@ -13,6 +13,10 @@ var audioLose = new Audio("sounds/lose.wav");
 var audioNextRound = new Audio("sounds/nextRound.wav");
 var audioWin = new Audio("sounds/win.wav");
 var audioWrong = new Audio("sounds/wrong.wav");
+//1. get it to play two buttons with delay
+//2. get it to play practice sequence
+//3. get it to play first elemtne, 1,2 elements
+//4. listen for user input
 
 //async get Pattern...,.., cmd=start
 //if color, change colors, with delay
@@ -20,14 +24,44 @@ var audioWrong = new Audio("sounds/wrong.wav");
 // change color back
 //for each of the rounds play that rounds # of patterns, if click pattern matches then go to next element, else
 //exit, else if its last round and they are right then.... winning screen....
+function getSequence(numRounds) {
+  return ["B", "R", "G", "R", "G"];
+}
+function playGame(numRounds) {
+  //let openingSequence = get sequence(10);
+  //playOpeningSequence(openingSequence)
+  //let sequence = getSequence(numRounds);
+  //let currRound = 1;
+  //while (currRound <= numRounds) {
+  //for the total number of rounds in the game
+  //spotInCurrRound = 1;
+  //play sequence, wait user guesses, success -> next round, fail-> lose and exit loop
+  //while (spotInCurrRound <= currRound) {
+  //playSol
+  //for the length of this rounds sequence
+  //spotInCurrRound++;
+  //}
+  //currRound++;
+  //}
 
+  playSolution(sequence);
+}
+async function playSolution(sequenceArray) {
+  //for each letter play sound!
+  blue.mouseDown;
+  blue.mouseUp;
+  await new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(); // do nothing after waiting 100 ms, just alert the calling thread
+    }, 400)
+  );
+  green.mouseDown;
+  green.mouseUp;
+}
 playButton.addEventListener("click", function (evt) {
   playGame(roundsAmt.value);
 });
 
-function playGame(numRounds) {
-  let sequence = getSequence(numRounds);
-}
 blue.addEventListener("mouseover", function (evt) {
   blue.style.border = "solid #eeeeee .5px";
 });
@@ -89,7 +123,3 @@ yellow.addEventListener("mouseup", function (evt) {
   yellow.style.backgroundColor = "goldenrod";
   audioY.play();
 });
-
-async function getSequence(numRounds) {
-  return ["B", "R", "G", "R", "G"];
-}
