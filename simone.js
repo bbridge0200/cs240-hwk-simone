@@ -11,7 +11,7 @@ var audioY = new Audio("sounds/yellow.wav");
 var audioG = new Audio("sounds/green.wav");
 var audioLose = new Audio("sounds/lose.wav");
 var audioNextRound = new Audio("sounds/nextRound.wav");
-var audioWin = new Audio("sounds/win.wav");
+//var audioWin = new Audio("sounds/win.wav");
 var audioWrong = new Audio("sounds/wrong.wav");
 //1. get it to play two buttons with delay
 //2. get it to play practice sequence
@@ -46,6 +46,22 @@ function playGame(numRounds) {
 
   playSolution(sequence);
 }
+function lightenColor(node) {
+  if (node == blue) {
+    node.style.backgroundColor = "lightblue";
+  }
+  if (node == green) {
+    node.style.backgroundColor = "lightgreen";
+  }
+  if (node == red) {
+    node.style.backgroundColor = "hotpink";
+  }
+  if (node == yellow) {
+    node.style.backgroundColor = "yellow";
+  }
+  node.style.border = "";
+}
+//function whiteBorder
 async function playSolution(sequenceArray) {
   //for each letter play sound!
   blue.mouseDown;
@@ -70,8 +86,7 @@ blue.addEventListener("mouseout", function (evt) {
   blue.style.backgroundColor = "#0000bb";
 });
 blue.addEventListener("mousedown", function (evt) {
-  blue.style.backgroundColor = "lightblue";
-  blue.style.border = "";
+  lightenColor(blue);
 });
 blue.addEventListener("mouseup", function (evt) {
   blue.style.backgroundColor = "#0000bb";
@@ -86,8 +101,7 @@ red.addEventListener("mouseout", function (evt) {
   red.style.backgroundColor = "#ff0000";
 });
 red.addEventListener("mousedown", function (evt) {
-  red.style.backgroundColor = "hotpink";
-  red.style.border = "";
+  lightenColor(red);
 });
 red.addEventListener("mouseup", function (evt) {
   red.style.backgroundColor = "#ff0000";
@@ -101,8 +115,7 @@ green.addEventListener("mouseout", function (evt) {
   green.style.backgroundColor = "forestgreen";
 });
 green.addEventListener("mousedown", function (evt) {
-  green.style.backgroundColor = "lightgreen";
-  green.style.border = "";
+  lightenColor(green);
 });
 green.addEventListener("mouseup", function (evt) {
   green.style.backgroundColor = "forestgreen";
@@ -116,8 +129,7 @@ yellow.addEventListener("mouseout", function (evt) {
   yellow.style.backgroundColor = "goldenrod";
 });
 yellow.addEventListener("mousedown", function (evt) {
-  yellow.style.backgroundColor = "yellow";
-  yellow.style.border = "";
+  lightenColor(yellow);
 });
 yellow.addEventListener("mouseup", function (evt) {
   yellow.style.backgroundColor = "goldenrod";
