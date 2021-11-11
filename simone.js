@@ -61,18 +61,30 @@ function lightenColor(node) {
   }
   node.style.border = "";
 }
+function darkenColor(node) {
+  if (node == blue) {
+    node.style.backgroundColor = "#0000bb";
+  }
+  if (node == green) {
+    node.style.backgroundColor = "forestgreen";
+  }
+  if (node == red) {
+    node.style.backgroundColor = "#ff0000";
+  }
+  if (node == yellow) {
+    node.style.backgroundColor = "goldenrod";
+  }
+  node.style.border = "";
+}
 //function whiteBorder
 async function playSolution(sequenceArray) {
   //for each letter play sound!
-  blue.mouseDown;
-  blue.mouseUp;
+  lightenColor(blue);
   await new Promise((resolve) =>
     setTimeout(() => {
       resolve(); // do nothing after waiting 100 ms, just alert the calling thread
     }, 400)
   );
-  green.mouseDown;
-  green.mouseUp;
 }
 playButton.addEventListener("click", function (evt) {
   playGame(roundsAmt.value);
@@ -82,14 +94,13 @@ blue.addEventListener("mouseover", function (evt) {
   blue.style.border = "solid #eeeeee .5px";
 });
 blue.addEventListener("mouseout", function (evt) {
-  blue.style.border = "";
-  blue.style.backgroundColor = "#0000bb";
+  darkenColor(blue);
 });
 blue.addEventListener("mousedown", function (evt) {
   lightenColor(blue);
 });
 blue.addEventListener("mouseup", function (evt) {
-  blue.style.backgroundColor = "#0000bb";
+  darkenColor(blue);
   audioB.play();
 });
 
@@ -97,41 +108,38 @@ red.addEventListener("mouseover", function (evt) {
   red.style.border = "solid #eeeeee .5px";
 });
 red.addEventListener("mouseout", function (evt) {
-  red.style.border = "";
-  red.style.backgroundColor = "#ff0000";
+  darkenColor(red);
 });
 red.addEventListener("mousedown", function (evt) {
   lightenColor(red);
 });
 red.addEventListener("mouseup", function (evt) {
-  red.style.backgroundColor = "#ff0000";
+  darkenColor(red);
   audioR.play();
 });
 green.addEventListener("mouseover", function (evt) {
   green.style.border = "solid #eeeeee .5px";
 });
 green.addEventListener("mouseout", function (evt) {
-  green.style.border = "";
-  green.style.backgroundColor = "forestgreen";
+  darkenColor(green);
 });
 green.addEventListener("mousedown", function (evt) {
   lightenColor(green);
 });
 green.addEventListener("mouseup", function (evt) {
-  green.style.backgroundColor = "forestgreen";
+  darkenColor(green);
   audioG.play();
 });
 yellow.addEventListener("mouseover", function (evt) {
   yellow.style.border = "solid #eeeeee .5px";
 });
 yellow.addEventListener("mouseout", function (evt) {
-  yellow.style.border = "";
-  yellow.style.backgroundColor = "goldenrod";
+  darkenColor(yellow);
 });
 yellow.addEventListener("mousedown", function (evt) {
   lightenColor(yellow);
 });
 yellow.addEventListener("mouseup", function (evt) {
-  yellow.style.backgroundColor = "goldenrod";
+  darkenColor(yellow);
   audioY.play();
 });
