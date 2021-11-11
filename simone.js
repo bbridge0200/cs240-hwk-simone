@@ -1,9 +1,9 @@
 let roundsAmt = document.querySelector("#rounds");
 let playButton = document.querySelector("#play");
-let blue = document.querySelector("#blueSq");
-let red = document.querySelector("#redSq");
-let yellow = document.querySelector("#yellowSq");
-let green = document.querySelector("#greenSq");
+let B = document.querySelector("#blueSq");
+let R = document.querySelector("#redSq");
+let Y = document.querySelector("#yellowSq");
+let G = document.querySelector("#greenSq");
 
 var audioB = new Audio("sounds/blue.wav");
 var audioR = new Audio("sounds/red.wav");
@@ -11,7 +11,7 @@ var audioY = new Audio("sounds/yellow.wav");
 var audioG = new Audio("sounds/green.wav");
 var audioLose = new Audio("sounds/lose.wav");
 var audioNextRound = new Audio("sounds/nextRound.wav");
-//var audioWin = new Audio("sounds/win.wav");
+var audioWin = new Audio("sounds/win.mp3");
 var audioWrong = new Audio("sounds/wrong.wav");
 //1. get it to play two buttons with delay
 //2. get it to play practice sequence
@@ -47,39 +47,63 @@ function playGame(numRounds) {
   playSolution(sequence);
 }
 function lightenColor(node) {
-  if (node == blue) {
+  if (node == B) {
     node.style.backgroundColor = "lightblue";
   }
-  if (node == green) {
+  if (node == G) {
     node.style.backgroundColor = "lightgreen";
   }
-  if (node == red) {
+  if (node == R) {
     node.style.backgroundColor = "hotpink";
   }
-  if (node == yellow) {
+  if (node == Y) {
     node.style.backgroundColor = "yellow";
   }
   node.style.border = "";
 }
 function darkenColor(node) {
-  if (node == blue) {
+  if (node == B) {
     node.style.backgroundColor = "#0000bb";
   }
-  if (node == green) {
+  if (node == G) {
     node.style.backgroundColor = "forestgreen";
   }
-  if (node == red) {
+  if (node == R) {
     node.style.backgroundColor = "#ff0000";
   }
-  if (node == yellow) {
+  if (node == Y) {
     node.style.backgroundColor = "goldenrod";
   }
   node.style.border = "";
 }
+function playAudio(node) {
+  if (node == B) {
+    audioB.play();
+  }
+  if (node == G) {
+    audioG.play();
+  }
+  if (node == R) {
+    audioR.play();
+  }
+  if (node == Y) {
+    audioY.play;
+  }
+}
 //function whiteBorder
 async function playSolution(sequenceArray) {
   //for each letter play sound!
-  lightenColor(blue);
+
+  await new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(); // do nothing after waiting 100 ms, just alert the calling thread
+    }, 800)
+  );
+  sequenceArray.foreach(playOneButton());
+}
+async function playOneButton(button) {
+  lightenColor(button);
+
   await new Promise((resolve) =>
     setTimeout(() => {
       resolve(); // do nothing after waiting 100 ms, just alert the calling thread
@@ -90,56 +114,56 @@ playButton.addEventListener("click", function (evt) {
   playGame(roundsAmt.value);
 });
 
-blue.addEventListener("mouseover", function (evt) {
-  blue.style.border = "solid #eeeeee .5px";
+B.addEventListener("mouseover", function (evt) {
+  B.style.border = "solid #eeeeee .5px";
 });
-blue.addEventListener("mouseout", function (evt) {
-  darkenColor(blue);
+B.addEventListener("mouseout", function (evt) {
+  darkenColor(B);
 });
-blue.addEventListener("mousedown", function (evt) {
-  lightenColor(blue);
+B.addEventListener("mousedown", function (evt) {
+  lightenColor(B);
 });
-blue.addEventListener("mouseup", function (evt) {
-  darkenColor(blue);
-  audioB.play();
+B.addEventListener("mouseup", function (evt) {
+  darkenColor(B);
+  playAudio(B);
 });
 
-red.addEventListener("mouseover", function (evt) {
-  red.style.border = "solid #eeeeee .5px";
+R.addEventListener("mouseover", function (evt) {
+  R.style.border = "solid #eeeeee .5px";
 });
-red.addEventListener("mouseout", function (evt) {
-  darkenColor(red);
+R.addEventListener("mouseout", function (evt) {
+  darkenColor(R);
 });
-red.addEventListener("mousedown", function (evt) {
-  lightenColor(red);
+R.addEventListener("mousedown", function (evt) {
+  lightenColor(R);
 });
-red.addEventListener("mouseup", function (evt) {
-  darkenColor(red);
-  audioR.play();
+R.addEventListener("mouseup", function (evt) {
+  darkenColor(R);
+  playAudio(R);
 });
-green.addEventListener("mouseover", function (evt) {
-  green.style.border = "solid #eeeeee .5px";
+G.addEventListener("mouseover", function (evt) {
+  G.style.border = "solid #eeeeee .5px";
 });
-green.addEventListener("mouseout", function (evt) {
-  darkenColor(green);
+G.addEventListener("mouseout", function (evt) {
+  darkenColor(G);
 });
-green.addEventListener("mousedown", function (evt) {
-  lightenColor(green);
+G.addEventListener("mousedown", function (evt) {
+  lightenColor(G);
 });
-green.addEventListener("mouseup", function (evt) {
-  darkenColor(green);
-  audioG.play();
+G.addEventListener("mouseup", function (evt) {
+  darkenColor(G);
+  playAudio(G);
 });
-yellow.addEventListener("mouseover", function (evt) {
-  yellow.style.border = "solid #eeeeee .5px";
+Y.addEventListener("mouseover", function (evt) {
+  Y.style.border = "solid #eeeeee .5px";
 });
-yellow.addEventListener("mouseout", function (evt) {
-  darkenColor(yellow);
+Y.addEventListener("mouseout", function (evt) {
+  darkenColor(Y);
 });
-yellow.addEventListener("mousedown", function (evt) {
-  lightenColor(yellow);
+Y.addEventListener("mousedown", function (evt) {
+  lightenColor(Y);
 });
-yellow.addEventListener("mouseup", function (evt) {
-  darkenColor(yellow);
-  audioY.play();
+Y.addEventListener("mouseup", function (evt) {
+  darkenColor(Y);
+  playAudio(Y);
 });
