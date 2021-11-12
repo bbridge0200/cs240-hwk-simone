@@ -43,8 +43,6 @@ function playGame(numRounds) {
   //}
   //currRound++;
   //}
-
-  playSolution(sequence);
 }
 function lightenColor(node) {
   if (node == B) {
@@ -87,31 +85,51 @@ function playAudio(node) {
     audioR.play();
   }
   if (node == Y) {
-    audioY.play;
+    audioY.play();
   }
 }
+async function buttonPress(node, milliseconds) {
+  //const result = await playAudio(node);
+
+  lightenColor(node);
+  playAudio(node);
+  await new Promise((resolve) =>
+    setTimeout(() => {
+      resolve();
+    }, milliseconds)
+  );
+  darkenColor(node);
+}
 //function whiteBorder
-async function playSolution(sequenceArray) {
+function playWelcome(sequenceArray) {
+  playSequence(sequenceArray, 0, 120);
+  //sequenceArray.foreach(playOneButton());
+}
+async function playSequence(sequenceArray, delay1, delay2) {
   //for each letter play sound!
-
   await new Promise((resolve) =>
     setTimeout(() => {
       resolve(); // do nothing after waiting 100 ms, just alert the calling thread
-    }, 800)
+    }, delay1)
   );
-  sequenceArray.foreach(playOneButton());
+  for (let i = 0; i < sequenceArray.length; i++) {
+    try {
+      let result = await buttonPress(B, delay2);
+      console.log(result); // yay, Promise resolved!
+    } catch (error) {
+      console.log(error); // boo, Promise rejected!
+    }
+  }
 }
-async function playOneButton(button) {
-  lightenColor(button);
 
+playButton.addEventListener("click", async function (evt) {
+  let wel = getSequence(10);
+  playWelcome(wel);
   await new Promise((resolve) =>
     setTimeout(() => {
       resolve(); // do nothing after waiting 100 ms, just alert the calling thread
-    }, 400)
+    }, 4000)
   );
-}
-playButton.addEventListener("click", function (evt) {
-  playGame(roundsAmt.value);
 });
 
 B.addEventListener("mouseover", function (evt) {
@@ -124,6 +142,7 @@ B.addEventListener("mousedown", function (evt) {
   lightenColor(B);
 });
 B.addEventListener("mouseup", function (evt) {
+  //TODO MULTIPLE CLICKS IN A ROW
   darkenColor(B);
   playAudio(B);
 });
