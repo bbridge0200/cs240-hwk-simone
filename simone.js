@@ -15,7 +15,23 @@ let G = document.querySelector("#greenSq");
 //for each of the rounds play that rounds # of patterns, if click pattern matches then go to next element, else
 //exit, else if its last round and they are right then.... winning screen....
 function getSequence(numRounds) {
-  return ["B", "R", "G"];
+  let arr = [];
+  for (let i = 0; i < numRounds; i++) {
+    let rand = Math.floor(Math.random() * 4);
+    if (rand === 0) {
+      arr[i] = "B";
+    }
+    if (rand === 1) {
+      arr[i] = "G";
+    }
+    if (rand === 2) {
+      arr[i] = "R";
+    }
+    if (rand === 3) {
+      arr[i] = "Y";
+    }
+  }
+  return arr;
 }
 function playGame(numRounds) {
   //let openingSequence = get sequence(10);
@@ -81,14 +97,22 @@ function playAudio(node) {
     let audioY = new Audio("sounds/yellow.wav");
     audioY.play();
   }
-  /* var audioB = new Audio("sounds/blue.wav");
-  var audioR = new Audio("sounds/red.wav");
-  var audioY = new Audio("sounds/yellow.wav");
-  var audioG = new Audio("sounds/green.wav");
-  var audioLose = new Audio("sounds/lose.wav");
-  var audioNextRound = new Audio("sounds/nextRound.wav");
-  var audioWin = new Audio("sounds/win.mp3");
-  var audioWrong = new Audio("sounds/wrong.wav"); */
+  if (node == "lose") {
+    let audioL = new Audio("sounds/lose.wav");
+    audioL.play();
+  }
+  if (node == "nextRound") {
+    let audioNR = new Audio("sounds/nextRound.wav");
+    audioNR.play();
+  }
+  if (node == "win") {
+    let audioW = new Audio("sounds/win.mp3");
+    audioW.play();
+  }
+  if (node == "wrong") {
+    let audioWR = new Audio("sounds/wrong.wav");
+    audioWR.play();
+  }
 }
 
 async function buttonPress(node, milliseconds) {
@@ -109,7 +133,6 @@ async function playSequence(sequenceArray, delay1, delay2) {
   for (let i = 0; i < sequenceArray.length; i++) {
     let node = convertToNode(sequenceArray[i]);
     await buttonPress(node, delay2);
-    console.log(sequenceArray[i]);
   }
 }
 function convertToNode(node) {
@@ -128,7 +151,7 @@ function convertToNode(node) {
 }
 
 playButton.addEventListener("click", async function (evt) {
-  let wel = getSequence(10);
+  let wel = getSequence(roundsAmt.value);
   playWelcome(wel);
   await new Promise((resolve) =>
     setTimeout(() => {
