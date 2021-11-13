@@ -11,13 +11,6 @@ let spotInSequence = 0;
 let currSequence = [];
 let currRound = 0;
 
-//3. get it to play first elemtne, 1,2 elements
-//4. listen for user input
-
-//async get Pattern...,.., cmd=start
-//if color, change colors, with delay
-//for each of the rounds play that rounds # of patterns, if click pattern matches then go to next element, else
-//exit, else if its last round and they are right then.... winning screen....
 function getSequence(numRounds) {
   let arr = [];
   if (numRounds == "welcome") {
@@ -150,11 +143,13 @@ function convertToNode(node) {
 playButton.addEventListener("click", async function (evt) {
   //reset screen
   clearGame();
+  currRound = 1;
   let wel = getSequence("welcome");
   playWelcome(wel); //play welcome sequence
-  //reset screen
-  await new Promise((r) => setTimeout(r, 4000)); //wait 4 seconds
   currSeq = getSequence(roundsAmt.value);
+  await new Promise((r) => setTimeout(r, 4000)); //wait 4 seconds
+
+  console.log(currSeq);
   playSequence(currSeq.slice(0, currRound), 0, 400); //.slice(1, 5)
   isPlaying = true;
 });
@@ -202,6 +197,10 @@ function win() {
   playAudio("lose");
 }
 function clearGame() {
+  isPlaying = false;
+  spotInSequence = 0;
+  currSequence = [];
+  currRound = 0;
   text.innerHTML = "";
   body.style.backgroundColor = "black";
 }
