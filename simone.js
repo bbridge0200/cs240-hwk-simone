@@ -4,9 +4,11 @@ let B = document.querySelector("#blueSq");
 let R = document.querySelector("#redSq");
 let Y = document.querySelector("#yellowSq");
 let G = document.querySelector("#greenSq");
+let isPlaying = false;
+let spotInSequence = 0;
+let currSequence = [];
+let currRound = 0;
 
-//1. get it to play two buttons with delay
-//2. get it to play practice sequence
 //3. get it to play first elemtne, 1,2 elements
 //4. listen for user input
 
@@ -16,6 +18,9 @@ let G = document.querySelector("#greenSq");
 //exit, else if its last round and they are right then.... winning screen....
 function getSequence(numRounds) {
   let arr = [];
+  if (numRounds == "welcome") {
+    numRounds = 10;
+  }
   for (let i = 0; i < numRounds; i++) {
     let rand = Math.floor(Math.random() * 4);
     if (rand === 0) {
@@ -33,23 +38,7 @@ function getSequence(numRounds) {
   }
   return arr;
 }
-function playGame(numRounds) {
-  //let openingSequence = get sequence(10);
-  //playOpeningSequence(openingSequence)
-  //let sequence = getSequence(numRounds);
-  //let currRound = 1;
-  //while (currRound <= numRounds) {
-  //for the total number of rounds in the game
-  //spotInCurrRound = 1;
-  //play sequence, wait user guesses, success -> next round, fail-> lose and exit loop
-  //while (spotInCurrRound <= currRound) {
-  //playSol
-  //for the length of this rounds sequence
-  //spotInCurrRound++;
-  //}
-  //currRound++;
-  //}
-}
+
 function lightenColor(node) {
   if (node == B) {
     node.style.backgroundColor = "lightblue";
@@ -151,15 +140,38 @@ function convertToNode(node) {
 }
 
 playButton.addEventListener("click", async function (evt) {
-  let wel = getSequence(roundsAmt.value);
-  playWelcome(wel);
-  await new Promise((resolve) =>
-    setTimeout(() => {
-      resolve(); // do nothing after waiting 100 ms, just alert the calling thread
-    }, 4000)
-  );
+  //reset screen
+  let wel = getSequence("welcome");
+  playWelcome(wel); //play welcome sequence
+  //reset screen
+  await new Promise((r) => setTimeout(r, 4000)); //wait 4 seconds
+  currSeq = getSequence(roundsAmt.value);
+  playSequence(currSeq.slice(0, spotInSequence + 1), 0, 400); //.slice(1, 5)
+  isPlaying = true;
 });
+function checkClick(node) {
+  if (isPlaying) {
+    if (node === convertToNode(currSeq[spotInSequence])) {
+      if (spotInSequence === currRound - 1) {
+        //display success message
 
+        //display next round
+        if (currRound === currSeq.length) {
+          //game is over
+        }
+        spotInSequence = 0;
+        currRound++;
+        //play next round
+      } else {
+        //display success message
+        spotInSequence++;
+      }
+    } else {
+      //wrong node
+      //end game
+    }
+  }
+}
 B.addEventListener("mouseover", function (evt) {
   B.style.border = "solid #eeeeee .5px";
 });
