@@ -4,6 +4,8 @@ let B = document.querySelector("#blueSq");
 let R = document.querySelector("#redSq");
 let Y = document.querySelector("#yellowSq");
 let G = document.querySelector("#greenSq");
+let text = document.querySelector("#status");
+let body = document.querySelector("body");
 let isPlaying = false;
 let spotInSequence = 0;
 let currSequence = [];
@@ -52,6 +54,9 @@ function lightenColor(node) {
   if (node == Y) {
     node.style.backgroundColor = "yellow";
   }
+  if (node == body) {
+    node.style.backgroundColor = "hotpink";
+  }
   node.style.border = "";
 }
 function darkenColor(node) {
@@ -66,6 +71,9 @@ function darkenColor(node) {
   }
   if (node == Y) {
     node.style.backgroundColor = "goldenrod";
+  }
+  if (node == body) {
+    node.style.backgroundColor = "DeepSkyBlue";
   }
   node.style.border = "";
 }
@@ -141,36 +149,61 @@ function convertToNode(node) {
 
 playButton.addEventListener("click", async function (evt) {
   //reset screen
+  clearGame();
   let wel = getSequence("welcome");
   playWelcome(wel); //play welcome sequence
   //reset screen
   await new Promise((r) => setTimeout(r, 4000)); //wait 4 seconds
   currSeq = getSequence(roundsAmt.value);
-  playSequence(currSeq.slice(0, spotInSequence + 1), 0, 400); //.slice(1, 5)
+  playSequence(currSeq.slice(0, currRound), 0, 400); //.slice(1, 5)
   isPlaying = true;
 });
-function checkClick(node) {
+async function checkClick(node) {
   if (isPlaying) {
     if (node === convertToNode(currSeq[spotInSequence])) {
       if (spotInSequence === currRound - 1) {
-        //display success message
-
-        //display next round
         if (currRound === currSeq.length) {
-          //game is over
+          //game is over, you won
+          win();
+        } else {
+          //end of current round
+          //display success message:
+          playAudio("nextRound");
+          text.innerHTML = "Good job! Prepare for next round.";
+          await new Promise((r) => setTimeout(r, 800));
+          spotInSequence = 0;
+          currRound++;
+          text.innerHTML = "Round " + currRound + "of " + currSequence.length;
+          await new Promise((r) => setTimeout(r, 800));
+
+          playSequence(currSeq.slice(0, currRound), 0, 400); //play next round
         }
-        spotInSequence = 0;
-        currRound++;
-        //play next round
       } else {
-        //display success message
         spotInSequence++;
+        text.innerHTMl =
+          "So far so good! " + (currRound - spotInSequence) + "more to go!";
       }
     } else {
       //wrong node
-      //end game
+      playAudio("wrong");
+      isPlaying = false;
+      lose();
     }
   }
+}
+function lose() {
+  text.innerHTML = "Incorrect! You lose!";
+  lightenColor(body);
+  playAudio("lose");
+}
+function win() {
+  text.innerHTML = "Incorrect! You lose!";
+  lightenColor(body);
+  playAudio("lose");
+}
+function clearGame() {
+  text.innerHTML = "";
+  body.style.backgroundColor = "black";
 }
 B.addEventListener("mouseover", function (evt) {
   B.style.border = "solid #eeeeee .5px";
@@ -185,6 +218,7 @@ B.addEventListener("mouseup", function (evt) {
   //TODO MULTIPLE CLICKS IN A ROW
   darkenColor(B);
   playAudio(B);
+  checkClick(B);
 });
 
 R.addEventListener("mouseover", function (evt) {
@@ -199,6 +233,7 @@ R.addEventListener("mousedown", function (evt) {
 R.addEventListener("mouseup", function (evt) {
   darkenColor(R);
   playAudio(R);
+  checkClick(R);
 });
 G.addEventListener("mouseover", function (evt) {
   G.style.border = "solid #eeeeee .5px";
@@ -212,6 +247,7 @@ G.addEventListener("mousedown", function (evt) {
 G.addEventListener("mouseup", function (evt) {
   darkenColor(G);
   playAudio(G);
+  checkClick(G);
 });
 Y.addEventListener("mouseover", function (evt) {
   Y.style.border = "solid #eeeeee .5px";
@@ -225,4 +261,5 @@ Y.addEventListener("mousedown", function (evt) {
 Y.addEventListener("mouseup", function (evt) {
   darkenColor(Y);
   playAudio(Y);
+  checkClick(Y);
 });
