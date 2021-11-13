@@ -173,10 +173,12 @@ async function checkClick(node) {
           playSequence(currSequence.slice(0, currRound), 0, 400); //play next round
         }
       } else {
+        text.innerHTML =
+          "So far so good! " +
+          (currRound - spotInSequence - 1) +
+          " more to go!";
         console.log("else case");
         spotInSequence++;
-        text.innerHTMl =
-          "So far so good! " + (currRound - spotInSequence) + "more to go!";
       }
     } else {
       //wrong node
