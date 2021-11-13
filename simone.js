@@ -106,7 +106,6 @@ function playAudio(node) {
 }
 
 async function buttonPress(node, milliseconds) {
-  //make new audio everytime i play it.
   await new Promise((r) => setTimeout(r, milliseconds));
   lightenColor(node);
   playAudio(node);
@@ -144,20 +143,20 @@ playButton.addEventListener("click", async function (evt) {
   //reset screen
   clearGame();
   currRound = 1;
+  isPlaying = true;
   let wel = getSequence("welcome");
   playWelcome(wel); //play welcome sequence
-  currSeq = getSequence(roundsAmt.value);
+  currSequence = getSequence(roundsAmt.value);
   await new Promise((r) => setTimeout(r, 4000)); //wait 4 seconds
-
-  console.log(currSeq);
-  playSequence(currSeq.slice(0, currRound), 0, 400); //.slice(1, 5)
-  isPlaying = true;
+  playSequence(currSequence.slice(0, currRound), 0, 400);
 });
 async function checkClick(node) {
   if (isPlaying) {
-    if (node === convertToNode(currSeq[spotInSequence])) {
-      if (spotInSequence === currRound - 1) {
-        if (currRound === currSeq.length) {
+    if (node === convertToNode(currSequence[spotInSequence])) {
+      let x = currRound - 1;
+      if (spotInSequence === x) {
+        console.log("current Round" + currRound);
+        if (currRound === currSequence.length) {
           //game is over, you won
           win();
         } else {
@@ -168,12 +167,13 @@ async function checkClick(node) {
           await new Promise((r) => setTimeout(r, 800));
           spotInSequence = 0;
           currRound++;
-          text.innerHTML = "Round " + currRound + "of " + currSequence.length;
+          text.innerHTML = "Round " + currRound + " of " + currSequence.length;
           await new Promise((r) => setTimeout(r, 800));
 
-          playSequence(currSeq.slice(0, currRound), 0, 400); //play next round
+          playSequence(currSequence.slice(0, currRound), 0, 400); //play next round
         }
       } else {
+        console.log("else case");
         spotInSequence++;
         text.innerHTMl =
           "So far so good! " + (currRound - spotInSequence) + "more to go!";
@@ -192,9 +192,9 @@ function lose() {
   playAudio("lose");
 }
 function win() {
-  text.innerHTML = "Incorrect! You lose!";
-  lightenColor(body);
-  playAudio("lose");
+  text.innerHTML = "Yay you win!";
+  darkenColor(body);
+  playAudio("win");
 }
 function clearGame() {
   isPlaying = false;
