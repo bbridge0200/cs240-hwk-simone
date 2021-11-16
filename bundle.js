@@ -2025,20 +2025,14 @@ playButton.addEventListener("click", async function (evt) {
     );
     welcomeSequence = response.data.sequence;
     playWelcome(welcomeSequence);
-  } catch (err) {
-    return "error!";
-  }
-  try {
-    const hdrs = {
-      headers: { Accept: "application/json" },
-    };
+
     let str =
-      "http://cs.pugetsound.edu/~dchiu/cs240/api/simone/?cmd=getSequence&rounds=" +
+      "http://cs.pugetsound.edu/~dchiu/cs240/api/simone/?cmd=getSolution&rounds=" +
       roundsAmt.value;
     let response2 = await axios.get(str, hdrs);
-    console.log(response2);
+
     currSequence = response2.data.key;
-    console.log(currSequence);
+
     await new Promise((r) => setTimeout(r, 4000)); //wait 4 seconds
     playSequence(currSequence.slice(0, currRound), 0, 400);
   } catch (err) {
@@ -2050,7 +2044,6 @@ async function checkClick(node) {
     if (node === convertToNode(currSequence[spotInSequence])) {
       let x = currRound - 1;
       if (spotInSequence === x) {
-        console.log("current Round" + currRound);
         if (currRound === currSequence.length) {
           //game is over, you won
           win();
@@ -2072,7 +2065,6 @@ async function checkClick(node) {
           "So far so good! " +
           (currRound - spotInSequence - 1) +
           " more to go!";
-        console.log("else case");
         spotInSequence++;
       }
     } else {
