@@ -10,31 +10,7 @@ let isPlaying = false;
 let spotInSequence = 0;
 let currSequence = [];
 let currRound = 0;
-var welcomeObj;
-var sequenceObj;
-async function getSequence(numRounds) {
-  try {
-    if (numRounds == "welcome") {
-      let response = await axios.get(
-        "http://cs.pugetsound.edu/~dchiu/cs240/api/simone/?cmd=start"
-      );
-      welcomeObj = response.data.sequence;
-      //playWelcome(welcomeObj);
-      console.log(response.data.sequence);
-      return response.data.sequence;
-    } else {
-      let urlStr =
-        "http://cs.pugetsound.edu/~dchiu/cs240/api/simone/?cmd=getSequence&rounds=${numRounds$}";
-
-      let response = await axios.get(urlStr);
-      console.log(response.data.sequence);
-      //var sequenceToPlay = response.data.key;
-      return response.data.sequence;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
+let welcomeSequence = [];
 
 function lightenColor(node) {
   if (node == B) {
@@ -146,12 +122,39 @@ playButton.addEventListener("click", async function (evt) {
   clearGame();
   currRound = 1;
   isPlaying = true;
-  let welcome = getSequence("welcome");
-  playWelcome(welcome);
-  //play welcome sequence
-  currSequence = getSequence(roundsAmt.value);
-  await new Promise((r) => setTimeout(r, 4000)); //wait 4 seconds
-  playSequence(currSequence.slice(0, currRound), 0, 400);
+  //let welcome = getSequence("welcome");
+  const axios = require("axios");
+
+  try {
+    // get a joke
+    const hdrs = {
+      headers: { Accept: "application/json" },
+    };
+    let response = await axios.get(
+      "http://cs.pugetsound.edu/~dchiu/cs240/api/simone/?cmd=start",
+      hdrs
+    );
+    welcomeSequence = response.data.sequence;
+    playWelcome(welcomeSequence);
+  } catch (err) {
+    return "error!";
+  }
+  try {
+    const hdrs = {
+      headers: { Accept: "application/json" },
+    };
+    let str =
+      "http://cs.pugetsound.edu/~dchiu/cs240/api/simone/?cmd=getSequence&rounds=" +
+      roundsAmt.value;
+    let response2 = await axios.get(str, hdrs);
+    console.log(response2);
+    currSequence = response2.data.key;
+    console.log(currSequence);
+    await new Promise((r) => setTimeout(r, 4000)); //wait 4 seconds
+    playSequence(currSequence.slice(0, currRound), 0, 400);
+  } catch (err) {
+    return "error!";
+  }
 });
 async function checkClick(node) {
   if (isPlaying) {
